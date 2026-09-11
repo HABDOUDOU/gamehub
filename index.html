@@ -1,1 +1,247 @@
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="description" content="A minimal, fast gaming directory with instant-play tiles and an iframe game page template."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Game Hub (Placeholder)"/>
+  <meta property="og:description" content="Play quick games in your browser. No downloads."/>
+  <meta name="theme-color" content="#0B1220"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet"/>
+  <title>Game Hub (Placeholder)</title>
+  <style>
+    :root{--bg:#0B1220;--surface:#111827;--text:#F9FAFB;--muted:#9CA3AF;--primary:#2563EB;--accent:#22C55E;--ring:rgba(37,99,235,.45);--radius:16px;--shadow:0 10px 24px rgba(0,0,0,.35);--max:1160px}
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;font:16px/1.55 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(1200px 600px at 20% -10%, rgba(37,99,235,.25), transparent 60%),radial-gradient(900px 500px at 90% 0%, rgba(34,197,94,.18), transparent 55%),var(--bg);color:var(--text)}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--max);margin:0 auto;padding:18px 16px calc(28px + env(safe-area-inset-bottom))}
+    .skip{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
+    .skip:focus{left:16px;top:12px;width:auto;height:auto;padding:10px 12px;background:var(--surface);border:1px solid rgba(255,255,255,.12);border-radius:12px;z-index:9999}
+    .top{display:flex;align-items:center;gap:12px;justify-content:space-between}
+    .brand{display:flex;align-items:baseline;gap:10px;min-width:220px}
+    .brand h1{margin:0;font:700 22px/1.1 Poppins,system-ui;color:var(--text);letter-spacing:.2px}
+    .brand small{color:var(--muted);font-size:12px}
+    .nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .nav a,.nav button{font:600 13px/1 Inter,system-ui;color:var(--text);background:transparent;border:1px solid rgba(255,255,255,.12);padding:10px 12px;border-radius:999px;cursor:pointer}
+    .nav a:hover,.nav button:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
+    .nav a:focus-visible,.nav button:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
+    .hero{padding:16px 0 6px}
+    .h-title{margin:12px 0 6px;font:700 36px/1.12 Poppins,system-ui;letter-spacing:.2px;text-align:center}
+    .h-sub{margin:0 auto;max-width:58ch;text-align:center;color:var(--muted)}
+    .searchWrap{margin:16px auto 10px;max-width:760px}
+    .searchBox{display:flex;gap:10px;background:rgba(17,24,39,.72);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:10px 12px;backdrop-filter:saturate(1.1)}
+    .searchBox input{flex:1;background:transparent;border:0;color:var(--text);font:600 14px/1.2 Inter,system-ui;padding:10px 12px;min-width:0}
+    .searchBox input::placeholder{color:rgba(249,250,251,.55)}
+    .searchBox input:focus{outline:0}
+    .searchBox:focus-within{border-color:rgba(37,99,235,.6);box-shadow:0 0 0 4px rgba(37,99,235,.18)}
+    .searchBox .go{background:linear-gradient(180deg, rgba(37,99,235,.95), rgba(37,99,235,.78));border:0;color:white;font:700 13px/1 Inter,system-ui;padding:10px 14px;border-radius:999px;cursor:pointer}
+    .searchBox .go:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
+    .chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:10px 0 6px}
+    .chip{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);padding:8px 12px;border-radius:999px;font:600 12px/1 Inter,system-ui;color:var(--text)}
+    .chip[aria-pressed="true"]{border-color:rgba(34,197,94,.55);box-shadow:0 0 0 4px rgba(34,197,94,.12);background:rgba(34,197,94,.08)}
+    .chip:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
+    .gridHead{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:14px 0 10px}
+    .gridHead h2{margin:0;font:700 16px/1.2 Poppins,system-ui}
+    .gridHead p{margin:0;color:var(--muted);font-size:13px}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media (min-width:640px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}
+    @media (min-width:900px){.grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.h-title{font-size:44px}}
+    @media (min-width:1140px){.grid{grid-template-columns:repeat(6,minmax(0,1fr))}}
+    .card{position:relative;display:flex;flex-direction:column;gap:10px;background:rgba(17,24,39,.78);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:12px;min-height:162px;transition:transform .14s ease, border-color .14s ease, background .14s ease, box-shadow .14s ease;overflow:hidden}
+    .card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.22);box-shadow:var(--shadow);background:rgba(17,24,39,.9)}
+    .card:focus-within{box-shadow:0 0 0 4px rgba(37,99,235,.18)}
+    .thumb{width:100%;aspect-ratio:1/1;border-radius:14px;border:1px solid rgba(255,255,255,.10);background:linear-gradient(135deg, rgba(37,99,235,.35), rgba(34,197,94,.22)),radial-gradient(500px 300px at 20% 30%, rgba(255,255,255,.12), transparent 55%);display:flex;align-items:flex-end;justify-content:flex-start;padding:10px;color:rgba(249,250,251,.85);font:700 12px/1 Poppins,system-ui}
+    .meta{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .title{margin:0;font:700 14px/1.25 Inter,system-ui;letter-spacing:.1px}
+    .badge{font:700 11px/1 Inter,system-ui;color:#D1FAE5;background:rgba(34,197,94,.16);border:1px solid rgba(34,197,94,.38);padding:6px 8px;border-radius:999px;white-space:nowrap}
+    .actions{margin-top:auto;display:flex;gap:10px;align-items:center}
+    .play{flex:1;display:inline-flex;justify-content:center;align-items:center;gap:8px;border-radius:12px;background:linear-gradient(180deg, rgba(37,99,235,.95), rgba(37,99,235,.78));border:0;color:white;font:800 12px/1 Inter,system-ui;padding:12px 12px;cursor:pointer}
+    .play:hover{filter:saturate(1.1)}
+    .play:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
+    .link{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;border:1px solid rgba(255,255,255,.12);padding:12px 12px;font:800 12px/1 Inter,system-ui;color:var(--text);background:rgba(255,255,255,.03);min-width:46px}
+    .link:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.22)}
+    .miniPanel{margin:18px 0;background:rgba(17,24,39,.72);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .miniPanel h3{margin:0;font:700 14px/1.2 Poppins,system-ui}
+    .miniPanel p{margin:2px 0 0;color:var(--muted);font-size:13px}
+    .miniPanel .btn{border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);padding:10px 12px;font:800 12px/1 Inter,system-ui;color:var(--text);cursor:pointer}
+    .miniPanel .btn:hover{background:rgba(255,255,255,.05)}
+    .footer{margin-top:22px;padding-top:16px;border-top:1px solid rgba(255,255,255,.10);display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;color:rgba(249,250,251,.72);font-size:12px}
+    .footer a{color:rgba(249,250,251,.72);border-bottom:1px dotted rgba(255,255,255,.25)}
+    .footer a:hover{color:var(--text)}
+    /* Play page template */
+    .playPage{margin-top:14px}
+    .frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.25)}
+    .frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  </style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
 
+<div class="container">
+  <header class="top" role="banner">
+    <div class="brand">
+      <h1>Game Hub</h1>
+      <small>Quick games. No installs.</small>
+    </div>
+    <nav class="nav" aria-label="Primary">
+      <a href="#grid">Catalog</a>
+      <a href="#play">Play page</a>
+      <button type="button" id="dmToggle" aria-pressed="false" title="Theme toggle">Contrast</button>
+    </nav>
+  </header>
+
+  <section class="hero" aria-label="Intro">
+    <h2 class="h-title">Pick a game. Start instantly.</h2>
+    <p class="h-sub">A clean catalog of browser games with fast tiles, category chips, and a dedicated embed page template.</p>
+
+    <div class="searchWrap" role="search">
+      <div class="searchBox">
+        <input id="q" type="search" placeholder="Search games…" autocomplete="off" aria-label="Filter games"/>
+        <button class="go" type="button" id="goBtn">Search</button>
+      </div>
+    </div>
+
+    <div class="chips" id="catChips" aria-label="Game categories">
+      <button class="chip" type="button" data-cat="all" aria-pressed="true">All</button>
+      <button class="chip" type="button" data-cat="Arcade" aria-pressed="false">Arcade</button>
+      <button class="chip" type="button" data-cat="Puzzle" aria-pressed="false">Puzzle</button>
+      <button class="chip" type="button" data-cat="Runner" aria-pressed="false">Runner</button>
+      <button class="chip" type="button" data-cat="Action" aria-pressed="false">Action</button>
+      <button class="chip" type="button" data-cat="IO" aria-pressed="false">IO</button>
+      <button class="chip" type="button" data-cat="Classic" aria-pressed="false">Classic</button>
+      <button class="chip" type="button" data-cat="Clicker" aria-pressed="false">Clicker</button>
+    </div>
+  </section>
+
+  <main id="main" role="main">
+    <div class="gridHead" id="grid">
+      <div>
+        <h2>Browse the catalog</h2>
+        <p id="countLine">Loading…</p>
+      </div>
+      <p><a class="chip" href="#play">Open play template</a></p>
+    </div>
+
+    <section class="grid" id="gameGrid" aria-label="Game grid">
+      <!-- Sample cards (placeholder content) -->
+      <article class="card" data-title="Neon Sprint" data-cats="Runner,Arcade" data-url="#play">
+        <div class="thumb">Runner</div>
+        <div class="meta"><h3 class="title">Neon Sprint</h3><span class="badge">Runner</span></div>
+        <div class="actions"><a class="play" href="#play">Play</a><a class="link" href="#play">↗</a></div>
+      </article>
+      <article class="card" data-title="Block Logic" data-cats="Puzzle" data-url="#play">
+        <div class="thumb">Puzzle</div>
+        <div class="meta"><h3 class="title">Block Logic</h3><span class="badge">Puzzle</span></div>
+        <div class="actions"><a class="play" href="#play">Play</a><a class="link" href="#play">↗</a></div>
+      </article>
+      <article class="card" data-title="Tap Factory" data-cats="Clicker" data-url="#play">
+        <div class="thumb">Clicker</div>
+        <div class="meta"><h3 class="title">Tap Factory</h3><span class="badge">Clicker</span></div>
+        <div class="actions"><a class="play" href="#play">Play</a><a class="link" href="#play">↗</a></div>
+      </article>
+      <article class="card" data-title="Pixel Arena" data-cats="Action,IO" data-url="#play">
+        <div class="thumb">Action</div>
+        <div class="meta"><h3 class="title">Pixel Arena</h3><span class="badge">Action</span></div>
+        <div class="actions"><a class="play" href="#play">Play</a><a class="link" href="#play">↗</a></div>
+      </article>
+      <article class="card" data-title="Retro Paddle" data-cats="Classic,Arcade" data-url="#play">
+        <div class="thumb">Classic</div>
+        <div class="meta"><h3 class="title">Retro Paddle</h3><span class="badge">Classic</span></div>
+        <div class="actions"><a class="play" href="#play">Play</a><a class="link" href="#play">↗</a></div>
+      </article>
+      <article class="card" data-title="Sky Hop" data-cats="Arcade" data-url="#play">
+        <div class="thumb">Arcade</div>
+        <div class="meta"><h3 class="title">Sky Hop</h3><span class="badge">Arcade</span></div>
+        <div class="actions"><a class="play" href="#play">Play</a><a class="link" href="#play">↗</a></div>
+      </article>
+    </section>
+
+    <section class="miniPanel" aria-label="Utility">
+      <div>
+        <h3>Quick switch</h3>
+        <p>Filter by title or category. Keep everything tap-friendly and fast.</p>
+      </div>
+      <button class="btn" type="button" id="scrollTop">Back to top</button>
+    </section>
+
+    <section class="playPage miniPanel" id="play" aria-label="Iframe play page template">
+      <div style="width:100%">
+        <h3 style="margin:0 0 8px;font:700 18px/1.2 Poppins,system-ui">Embedded game (template)</h3>
+        <div class="frame">
+          <iframe title="Game" loading="lazy" referrerpolicy="no-referrer" allowfullscreen src="about:blank"></iframe>
+        </div>
+        <p style="margin:10px 0 0;color:rgba(249,250,251,.72);font-size:12px">Replace the iframe URL with your game embed link.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div>© Game Hub — Built for quick sessions.</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a href="#0">Privacy</a>
+      <a href="#0">Terms</a>
+      <a href="#0">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const $ = (s, r=document)=>r.querySelector(s);
+  const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
+  const grid = $('#gameGrid');
+  const countLine = $('#countLine');
+  const q = $('#q');
+  const goBtn = $('#goBtn');
+  let activeCat = 'all';
+
+  function norm(s){return (s||'').toString().toLowerCase().trim();}
+  function cards(){return $$('.card', grid);}
+
+  function apply(){
+    const query = norm(q.value);
+    let shown = 0;
+    cards().forEach(c=>{
+      const title = norm(c.dataset.title);
+      const cats = norm(c.dataset.cats);
+      const okQ = !query || title.includes(query);
+      const okC = activeCat==='all' || cats.includes(norm(activeCat));
+      const ok = okQ && okC;
+      c.style.display = ok ? '' : 'none';
+      if(ok) shown++;
+    });
+    countLine.textContent = `${shown} game${shown===1?'':'s'} shown`;
+  }
+
+  $('#catChips').addEventListener('click', (e)=>{
+    const b = e.target.closest('button[data-cat]');
+    if(!b) return;
+    activeCat = b.dataset.cat || 'all';
+    $$('.chip', e.currentTarget).forEach(x=>x.setAttribute('aria-pressed', x===b ? 'true' : 'false'));
+    apply();
+  });
+
+  q.addEventListener('input', apply);
+  goBtn.addEventListener('click', ()=>q.focus());
+
+  const t = $('#dmToggle');
+  t.addEventListener('click', ()=>{
+    const on = t.getAttribute('aria-pressed') === 'true';
+    t.setAttribute('aria-pressed', on ? 'false' : 'true');
+    document.documentElement.style.setProperty('--bg', on ? '#0B1220' : '#070A12');
+    document.documentElement.style.setProperty('--surface', on ? '#111827' : '#0F172A');
+    document.documentElement.style.setProperty('--shadow', on ? '0 10px 24px rgba(0,0,0,.35)' : '0 14px 30px rgba(0,0,0,.5)');
+  });
+
+  $('#scrollTop').addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+  apply();
+})();
+</script>
+</body>
+</html>
+```
